@@ -22,6 +22,7 @@
       display: none;
       flex-direction: column;
       gap: 1rem;
+      position: relative;
     }
     .question.active {
       display: flex;
@@ -29,6 +30,7 @@
     .question h2 {
       font-size: 1.25rem;
       color: #000;
+      margin-top: 2rem;
     }
     .option {
       background: rgba(233, 236, 239, 0.9);
@@ -39,6 +41,33 @@
     }
     .option:hover {
       background: rgba(206, 212, 218, 1);
+    }
+    .back-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      color: #000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .submit-btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .submit-btn:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
@@ -56,6 +85,7 @@
     </div>
 
     <div class="question" data-question="2">
+      <button type="button" class="back-button" onclick="goBack(2)">← Zurück</button>
       <h2>2. Ich möchte tiefenentspannt zu den Musik-Acts.</h2>
       <div class="option" onclick="next(2, 'Stimmt voll und ganz')">Stimmt voll und ganz</div>
       <div class="option" onclick="next(2, 'Stimmt eher')">Stimmt eher</div>
@@ -65,12 +95,14 @@
     </div>
 
     <div class="question" data-question="3">
+      <button type="button" class="back-button" onclick="goBack(3)">← Zurück</button>
       <h2>3. Party, Party, Party!</h2>
-      <div class="option" onclick="submitQuiz('Stimmt voll und ganz')">Stimmt voll und ganz</div>
-      <div class="option" onclick="submitQuiz('Stimmt eher')">Stimmt eher</div>
-      <div class="option" onclick="submitQuiz('Mal so mal so')">Mal so mal so</div>
-      <div class="option" onclick="submitQuiz('Stimmt eher nicht')">Stimmt eher nicht</div>
-      <div class="option" onclick="submitQuiz('Stimmt gar nicht')">Stimmt gar nicht</div>
+      <div class="option" onclick="selectFinal('Stimmt voll und ganz')">Stimmt voll und ganz</div>
+      <div class="option" onclick="selectFinal('Stimmt eher')">Stimmt eher</div>
+      <div class="option" onclick="selectFinal('Mal so mal so')">Mal so mal so</div>
+      <div class="option" onclick="selectFinal('Stimmt eher nicht')">Stimmt eher nicht</div>
+      <div class="option" onclick="selectFinal('Stimmt gar nicht')">Stimmt gar nicht</div>
+      <button id="finalSubmit" type="button" class="submit-btn" style="display:none;" onclick="submitQuiz()">Jetzt deinen Festival-Typ kennenlernen</button>
     </div>
   </form>
 </div>
@@ -80,20 +112,27 @@
 
   function next(questionNumber, answer) {
     answers[`q${questionNumber}`] = answer;
-
     document.querySelector(`[data-question="${questionNumber}"]`).classList.remove("active");
-    const nextQuestion = document.querySelector(`[data-question="${questionNumber + 1}"]`);
-    if (nextQuestion) nextQuestion.classList.add("active");
+    document.querySelector(`[data-question="${questionNumber + 1}"]`).classList.add("active");
   }
 
-  function submitQuiz(finalAnswer) {
-    answers["q3"] = finalAnswer;
+  function goBack(currentQuestion) {
+    document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove("active");
+    document.querySelector(`[data-question="${currentQuestion - 1}"]`).classList.add("active");
+  }
 
+  function selectFinal(answer) {
+    answers["q3"] = answer;
+    document.getElementById("finalSubmit").style.display = "block";
+  }
+
+  function submitQuiz() {
     const a1 = answers["q1"];
     const a2 = answers["q2"];
     const a3 = answers["q3"];
 
-    let url = "https://skandika.com"; // default
+    let url = "https://skandika.com"; // default fallback
+
 
     if (a1 === "Stimmt eher nicht" && a2 === "Stimmt voll und ganz" && a3 === "Stimmt gar nicht") {
       url = "https://skandika.com";
