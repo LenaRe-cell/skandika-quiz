@@ -195,7 +195,7 @@
     }
 
 
-    window.top.location.href = url;
+   window.parent.postMessage({ redirectTo: url }, '*');
   }
 </script>
 
