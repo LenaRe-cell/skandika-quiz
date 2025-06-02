@@ -23,8 +23,8 @@
     }
     .answers button {
       display: block;
-      width: calc(100% - 40px);
-      margin: 10px 20px;
+      width: 100%;
+      margin: 10px 0;
       padding: 12px 20px;
       font-size: 16px;
       border: 1px solid #ccc;
@@ -59,17 +59,17 @@
       background: black;
       color: white;
       padding: 12px 20px;
-      width: calc(100% - 40px);
-      margin: 20px;
+      width: 100%;
       font-size: 16px;
       cursor: pointer;
       border: none;
       border-radius: 8px;
+      margin-top: 20px;
     }
     h2 {
       font-size: 18px;
       margin-bottom: 15px;
-      text-align: center;
+      text-align: left;
     }
   </style>
 </head>
@@ -119,6 +119,8 @@
 
       options.forEach((opt, idx) => {
         const btn = document.createElement('button');
+        btn.style.maxWidth = '400px';
+        btn.style.margin = '10px auto';
         btn.textContent = opt;
         btn.onclick = () => selectAnswer(idx);
         ansDiv.appendChild(btn);
