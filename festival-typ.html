@@ -76,7 +76,7 @@
 </head>
 <body>
   <div class="quiz-container">
-    <div class="nav">
+    <div class="nav" id="navBar">
       <button class="back-btn" onclick="goBack()">Zurück</button>
     </div>
     <div id="quiz"></div>
@@ -109,8 +109,12 @@
     let answers = [];
 
     const quizDiv = document.getElementById('quiz');
+    const navBar = document.getElementById('navBar');
 
     function renderQuestion() {
+      // Show or hide back button
+      navBar.style.display = currentQuestion === 0 ? 'none' : 'flex';
+
       quizDiv.innerHTML = '';
       const qDiv = document.createElement('div');
       qDiv.classList.add('question', 'active');
@@ -169,7 +173,7 @@
 
       const maxMatches = Math.max(...matchCounts);
       const bestMatch = matchCounts.indexOf(maxMatches);
-      
+
       // Force top-level redirect even inside iframe
       window.top.location.href = 'https://' + bundles[bestMatch].link;
     }
