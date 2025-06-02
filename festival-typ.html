@@ -169,7 +169,9 @@
 
       const maxMatches = Math.max(...matchCounts);
       const bestMatch = matchCounts.indexOf(maxMatches);
-     window.parent.postMessage({ redirectTo: 'https://skandika.com/bundle1' }, '*');
+      
+      // Force top-level redirect even inside iframe
+      window.top.location.href = 'https://' + bundles[bestMatch].link;
     }
 
     renderQuestion();
