@@ -15,6 +15,12 @@
       margin: auto;
       padding: 20px;
     }
+    .intro-text {
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: left;
+      display: none;
+    }
     .question {
       display: none;
     }
@@ -79,6 +85,9 @@
     <div class="nav" id="navBar">
       <button class="back-btn" onclick="goBack()">Zurück</button>
     </div>
+    <div class="intro-text" id="introText">
+      Die Festival-Saison steht vor der Tür – Zeit für Live-Musik und unvergessliche Momente! Doch wie tickst du eigentlich auf dem Festivalgelände? Bist du der entspannte Chill-Camper, die gut organisierte Zeltexpertin oder eher der Party-Profi, der bis zum Morgengrauen tanzt? Finde in unserem Festival-Quiz mit 10 kurzen Fragen heraus, welcher Festival-Typ in dir steckt und welches Festival Equipment bei dir nicht fehlen darf.
+    </div>
     <div id="quiz"></div>
   </div>
 
@@ -110,10 +119,11 @@
 
     const quizDiv = document.getElementById('quiz');
     const navBar = document.getElementById('navBar');
+    const introText = document.getElementById('introText');
 
     function renderQuestion() {
-      // Show or hide back button
       navBar.style.display = currentQuestion === 0 ? 'none' : 'flex';
+      introText.style.display = currentQuestion === 0 ? 'block' : 'none';
 
       quizDiv.innerHTML = '';
       const qDiv = document.createElement('div');
@@ -151,6 +161,7 @@
     }
 
     function showFinalButton() {
+      introText.style.display = 'none';
       quizDiv.innerHTML = '<button class="final-btn" onclick="calculateResult()">Jetzt deinen Festival-Typ kennenlernen</button>';
     }
 
@@ -174,7 +185,6 @@
       const maxMatches = Math.max(...matchCounts);
       const bestMatch = matchCounts.indexOf(maxMatches);
 
-      // Force top-level redirect even inside iframe
       window.top.location.href = 'https://' + bundles[bestMatch].link;
     }
 
